@@ -25,7 +25,7 @@ products.forEach((product) => {
     </div>
 
     <div class="product-quantity-container">
-      <select>
+      <select class='js-quantity-selector-${product.id}'>
         <option selected value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -41,11 +41,11 @@ products.forEach((product) => {
 
     <div class="product-spacer"></div>
 
-    <div class="added-to-cart">
+    <div class="added-to-cart js-added-to-cart">
       <img src="images/icons/checkmark.png">
       Added
     </div>
-    // usage of data-attribute
+
     <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
       Add to Cart
     </button>
@@ -59,12 +59,12 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     button.addEventListener('click', () => {
     const { productId }  = button.dataset;
     let matchingItem;
-      cart.forEach((item) => {
-        if (productId === item.productId) {
-            matchingItem = item;
-        }
-      });
-    
+    cart.forEach((item) => {
+      if (productId === item.productId) {
+          matchingItem = item;
+      }
+    });
+
     if(matchingItem) {
       matchingItem.quantity += 1;
     } else {
@@ -74,11 +74,24 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
       quantity : 1
     })}
 
+    const addedToCart = button.parentElement;
+    addedToCart.querySelector('.js-added-to-cart').classList.add('show');
+    setTimeout(() => {
+      addedToCart.querySelector('.js-added-to-cart').classList.remove('show');
+    },1500);
+
+    let itemQuantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+
     let cartQuantity = 0;
+
     cart.forEach((item) => {
-      cartQuantity += item.quantity;
+      cartQuantity += itemQuantity;
     });
 
+    // console.log(`cart quantity - ${cartQuantity}`);
+    // console.log(`quantity item - ${itemQuantity}`);
+
     document.querySelector('.js-cart-quantity').innerHTML = `${cartQuantity}`;
+
   })
 })
