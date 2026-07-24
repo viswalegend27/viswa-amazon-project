@@ -43,18 +43,18 @@ export function toggleAddedToCart(btn) {
 }
 
 export function addCartQuantity(prod) {
-  // only posses the quantity.
   let Quantity = document.querySelector(`.js-quantity-selector-${prod}`);
   let QuantityValue = Number(Quantity.value);
 
-  // console.log(QuantityValue);
-  
-  let cartQuantity = 0;
   cart.forEach((item) => {
-      cartQuantity += item.quantity;
-  });
+    if (prod === item.productId) {
+      item.quantity += (QuantityValue - 1);
+    }
+  })
 
-  document.querySelector('.js-cart-quantity').innerHTML = `${cartQuantity}`;
+  document.querySelector('.js-cart-quantity').innerHTML = `${overallQuantity()}`;
+  
+  saveToStorage();
 }
 
 export function changedQuantity(id, value) {
