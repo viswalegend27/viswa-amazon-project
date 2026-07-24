@@ -48,6 +48,16 @@ export function addCartQuantity(prod) {
   document.querySelector('.js-cart-quantity').innerHTML = `${cartQuantity}`;
 }
 
+export function changedQuantity(id, value) {
+  cart.forEach((item) => {
+    if(id === item.productId) {
+      item.quantity += value;
+    }
+  })
+
+  saveToStorage();
+}
+
 export function removeFromCart(deleteId) {
   const result = cart.filter(data => data.productId !== deleteId);
   cart = result;

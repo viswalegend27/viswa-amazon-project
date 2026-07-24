@@ -7,6 +7,7 @@ let checkoutHTML = '';
 Cart.cart.forEach((cartItem) => {
 
   const { productId } = cartItem;
+  // console.log(cartItem);
   const index = Product.products.findIndex(item => item.id === productId);
   const product = Product.products[index];
   checkoutHTML +=
@@ -28,11 +29,18 @@ Cart.cart.forEach((cartItem) => {
       </div>
       <div class="product-quantity">
         <span>
-          Quantity: <span class="quantity-label js-quantity-label">${cartItem.quantity}</span>
+          Quantity: <span class="quantity-label js-quantity-label" data-product-id="${product.id}">${cartItem.quantity}</span>
         </span>
-        <span class="update-quantity-link link-primary">
+        
+        <span class="update-quantity-link link-primary js-update-quantity">
           Update
         </span>
+
+        <!-- Quantity input -->
+
+        <input type="number" name="quantity" class="quantity-input">
+        <span class="save-quantity-link link-primary">Save</span>
+
         <span class="delete-quantity-link link-primary js-delete-link " data-product-id="${product.id}">
           Delete
         </span>
@@ -87,6 +95,7 @@ Cart.cart.forEach((cartItem) => {
 
 document.querySelector('.js-order-summary').innerHTML = checkoutHTML;
 
+// removing item code
 document.querySelectorAll('.js-delete-link').forEach((link) => {
   link.addEventListener('click', () => {
     const deleteId = link.dataset.productId;
@@ -99,7 +108,23 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
   });
 })
 
-let cartLength = Cart.cart.length;
+document.querySelector('.js-checkout-items').innerHTML = `${Cart.cart.length} items`;
 
+document.querySelectorAll('.js-update-quantity').forEach((quantity) => {
+  quantity.addEventListener('click', () => {
+    quantity.style.display = 'none';
+    const cartItem = quantity.closest('.product-quantity');
+    cartItem.querySelector('.quantity-input').style.display = 'block';
+    cartItem.querySelector('.save-quantity-link').style.display = 'block';
+  });
+});
 
-document.querySelector('.js-checkout-items').innerHTML = `${cartLength} items`;
+document.querySelectorAll('.save-quantity-link').forEach((savedQuantity) => {
+  const cartItem = savedQuantity.closest('.product-quantity');
+  savedQuantity.addEventListener('click', () => {
+    let quantityInp = Number(cartItem.querySelector('.quantity-input').value);
+    const itemId = cartItem.querySelector('.js-quantity-label');
+    // console.log(itemId.dataset.productId);
+    Cart.changedQuantity(itemId.dataset.productId, quantityInp);
+  })
+});
