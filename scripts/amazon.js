@@ -4,6 +4,9 @@ import * as Money from "./utils/money.js";
 
 let productsHTML = '';
 
+document.querySelector('.js-cart-quantity').innerHTML = `${Cart.cart.length}`;
+
+
 Product.products.forEach((product) => {
   productsHTML += `
     <div class="product-container">

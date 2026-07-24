@@ -1,4 +1,4 @@
-export let cart = [
+export let cart = JSON.parse(localStorage.getItem('cart')) || [
   {
     productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
     quantity: 2
@@ -8,6 +8,11 @@ export let cart = [
     quantity: 1
   }
 ];
+
+
+function saveToStorage() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
 
 export function addToCart(prod) {
   let matchingItem;
@@ -23,18 +28,21 @@ export function addToCart(prod) {
   {
     productId : prod,
     quantity : 1
-  })}
+  });}
+
+  saveToStorage();
 }
 
 export function addCartQuantity(prod) {
   // only posses the quantity.
-  let itemQuantity = document.querySelector(`.js-quantity-selector-${prod}`);
-  let itemQNumber = Number(itemQuantity.value);
+  let Quantity = document.querySelector(`.js-quantity-selector-${prod}`);
+  let QuantityValue = Number(Quantity.value);
 
+  // console.log(QuantityValue);
+  
   let cartQuantity = 0;
-
   cart.forEach((item) => {
-    cartQuantity += itemQNumber; 
+      cartQuantity += item.quantity;
   });
 
   document.querySelector('.js-cart-quantity').innerHTML = `${cartQuantity}`;
@@ -43,5 +51,6 @@ export function addCartQuantity(prod) {
 export function removeFromCart(deleteId) {
   const result = cart.filter(data => data.productId !== deleteId);
   cart = result;
-  
+
+  saveToStorage();
 }
