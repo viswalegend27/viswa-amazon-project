@@ -102,18 +102,18 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
     Cart.removeFromCart(deleteId);
 
     const deletedElement = document.querySelector(`.js-cart-item-container-${deleteId}`);
-    document.querySelector('.js-checkout-items').innerHTML = `${Cart.cart.length} items`;
+    document.querySelector('.js-checkout-items').innerHTML = `${Cart.overallQuantity()} items`;
 
     deletedElement.remove();
   });
 })
 
-document.querySelector('.js-checkout-items').innerHTML = `${Cart.cart.length} items`;
+document.querySelector('.js-checkout-items').innerHTML = `${Cart.overallQuantity()} items`;
 
 document.querySelectorAll('.js-update-quantity').forEach((quantity) => {
+  const cartItem = quantity.closest('.product-quantity');
   quantity.addEventListener('click', () => {
     quantity.style.display = 'none';
-    const cartItem = quantity.closest('.product-quantity');
     cartItem.querySelector('.quantity-input').style.display = 'block';
     cartItem.querySelector('.save-quantity-link').style.display = 'block';
   });
@@ -124,7 +124,6 @@ document.querySelectorAll('.save-quantity-link').forEach((savedQuantity) => {
   savedQuantity.addEventListener('click', () => {
     let quantityInp = Number(cartItem.querySelector('.quantity-input').value);
     const itemId = cartItem.querySelector('.js-quantity-label');
-    // console.log(itemId.dataset.productId);
     Cart.changedQuantity(itemId.dataset.productId, quantityInp);
   })
 });

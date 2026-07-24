@@ -4,7 +4,7 @@ import * as Money from "./utils/money.js";
 
 let productsHTML = '';
 
-document.querySelector('.js-cart-quantity').innerHTML = `${Cart.cart.length}`;
+document.querySelector('.js-cart-quantity').innerHTML = `${Cart.overallQuantity()}`;
 
 
 Product.products.forEach((product) => {
@@ -64,21 +64,11 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 
 
-function toggleAddedToCart(btn) {
-  const addedToCart = btn.parentElement;
-  // if clicked show is been added
-  addedToCart.querySelector('.js-added-to-cart').classList.add('show');
-  setTimeout(() => {
-    addedToCart.querySelector('.js-added-to-cart').classList.remove('show');
-  },1500);
-}
-
-
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     button.addEventListener('click', () => {
     const { productId }  = button.dataset;
     Cart.addToCart(productId);
-    toggleAddedToCart(button);
+    Cart.toggleAddedToCart(button);
     Cart.addCartQuantity(productId);
   });
 });

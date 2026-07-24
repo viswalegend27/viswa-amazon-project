@@ -33,6 +33,15 @@ export function addToCart(prod) {
   saveToStorage();
 }
 
+export function toggleAddedToCart(btn) {
+  const addedToCart = btn.parentElement;
+  // if clicked show is been added
+  addedToCart.querySelector('.js-added-to-cart').classList.add('show');
+  setTimeout(() => {
+    addedToCart.querySelector('.js-added-to-cart').classList.remove('show');
+  },1500);
+}
+
 export function addCartQuantity(prod) {
   // only posses the quantity.
   let Quantity = document.querySelector(`.js-quantity-selector-${prod}`);
@@ -56,6 +65,15 @@ export function changedQuantity(id, value) {
   })
 
   saveToStorage();
+}
+
+export function overallQuantity() {
+  let count = 0
+  cart.forEach((item) => {
+    count += item.quantity;
+  });
+  saveToStorage();
+  return count;
 }
 
 export function removeFromCart(deleteId) {
