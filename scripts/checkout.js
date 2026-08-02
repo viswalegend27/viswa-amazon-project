@@ -1,14 +1,11 @@
 import * as Cart from "../data/cart.js";
 import * as Product from '../data/products.js'
 import * as Money from "./utils/money.js";
-import * as dOps from '../data/deliveryOptions.js'
+import * as DeliveryOption from '../data/deliveryOptions.js'
 import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 const today = dayjs();
-const deliveryDate = today.add(7, 'days');
-const currentDate = today.format('dddd, MMMM DD');
-
 setDelivery();
 
 let checkoutHTML = '';
@@ -20,11 +17,15 @@ Cart.cart.forEach((cartItem) => {
   // console.log(cartItem);
   const index = Product.products.findIndex(item => item.id === productId);
   const product = Product.products[index];
+  const deliveryIndex = DeliveryOption.deliveryOptions.findIndex(item => item.id === deliveryOptionId);
+  const { deliveryDays } = DeliveryOption.deliveryOptions[deliveryIndex];
+  const deliveryDate = today.add(deliveryDays, 'days').format('dddd, MMMM DD');
+
   checkoutHTML +=
   `
   <div class="cart-item-container js-cart-item-container-${product.id}">
   <div class="delivery-date">
-    Delivery date: ${currentDate}
+    Delivery date: ${deliveryDate}
   </div>
 
   <div class="cart-item-details-grid">
@@ -67,13 +68,12 @@ Cart.cart.forEach((cartItem) => {
   </div>
   </div>
   `;
-  
 });
 
 function setDelivery(cartDeliveryId) {
   let deliveryHTML = '';
-  console.log(cartDeliveryId);
-  dOps.deliveryOptions.forEach((item) => {
+  // console.log(cartDeliveryId);
+  DeliveryOption.deliveryOptions.forEach((item) => {
   let isChecked = cartDeliveryId === item.id;
   const price = Money.formatCurrency(item.priceCents);
   let moneyPrice = price > 0 ? `$${price} - Shipping` : 'FREE SHIPPING';
@@ -109,8 +109,11 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
   });
 })
 
+// calculating the overall quantity
+
 document.querySelector('.js-checkout-items').innerHTML = `${Cart.overallQuantity()} items`;
 
+// updating the quantity
 document.querySelectorAll('.js-update-quantity').forEach((quantity) => {
   const cartItem = quantity.closest('.product-quantity');
   quantity.addEventListener('click', () => {
@@ -120,6 +123,7 @@ document.querySelectorAll('.js-update-quantity').forEach((quantity) => {
   });
 });
 
+// calculating the quantity
 document.querySelectorAll('.save-quantity-link').forEach((savedQuantity) => {
   const cartItem = savedQuantity.closest('.product-quantity');
   savedQuantity.addEventListener('click', () => {
