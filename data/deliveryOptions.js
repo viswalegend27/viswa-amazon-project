@@ -17,3 +17,27 @@ export const deliveryOptions = [{
 }
 ];
 
+export function deliveryOption(cartItem) {
+  let matchingItem;
+
+  deliveryOptions.forEach((item) => {
+    if(item.id === cartItem) {
+      matchingItem = item;
+    }
+  });
+
+  return matchingItem;
+}
+
+// add delivery-cost to total
+export function getDeliveryCost(totalPrice, deliveryOptionId) {
+  let nonAvailable;
+  let deliveryTotal = 
+  deliveryOptions.forEach((item) => {
+    if(item.id === deliveryOptionId) {
+      totalPrice += item.priceCents;
+    }
+  });
+
+  return totalPrice || (nonAvailable = deliveryOptions[0]);
+}
