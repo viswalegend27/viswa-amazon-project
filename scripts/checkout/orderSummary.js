@@ -3,10 +3,27 @@ import * as Product from '../../data/products.js'
 import * as Money from "../utils/money.js";
 import * as DeliveryOption from '../../data/deliveryOptions.js'
 import { paymentSummary } from "./paymentSummary.js";
-import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 const today = dayjs();
+const weekDay = today.day();
+
+let isWeekend = (weekDay === 6 || weekDay === 0)
+
+function isWeekEnd(item) {
+  let date = '';
+  let dayVal = today.add(item, 'days').day();
+  if(!isWeekend){
+    if (dayVal === 6) {
+        dayVal = today.add(item + 2, 'days').day();
+    }
+    if (dayVal === 0) {
+        dayVal = today.add(item + 1, 'days').day();
+    }
+    console.log(today.day(dayVal).format('dddd, MMMM DD'));
+  }
+  return date = today.day(dayVal).format('dddd, MMMM DD');
+}
 
 export function renderOrderSummary() {
 
@@ -82,7 +99,7 @@ export function renderOrderSummary() {
       <input type="radio" class="delivery-option-input" name="delivery-option-${productId}" ${isChecked ? 'checked' : ''}>
       <div>
         <div class="delivery-option-date">
-          ${today.add(item.deliveryDays, 'days').format('dddd, MMMM DD')}
+          ${isWeekEnd(item.deliveryDays)}
         </div>
         <div class="delivery-option-price">
           ${moneyPrice}
