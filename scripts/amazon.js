@@ -1,5 +1,5 @@
-import * as Cart from "../data/cart.js";
-import * as Product from '../data/products.js'
+import * as Cart from "../scripts/data/cart.js";
+import * as Product from '../scripts/data/products.js'
 import * as Money from "./utils/money.js";
 
 let productsHTML = '';

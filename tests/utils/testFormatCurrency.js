@@ -1,4 +1,4 @@
-import {formatCurrency} from '../scripts/utils/money.js'
+import {formatCurrency} from '../../scripts/utils/money.js'
 
 // const centsCalculation = formatCurrency(2095) === 20.95 ? 'passed' : 'failed';
 // const worksWithZero = formatCurrency(0) === 0.00 ? 'passed' : 'failed';

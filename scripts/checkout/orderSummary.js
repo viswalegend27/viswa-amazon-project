@@ -1,7 +1,7 @@
-import * as Cart from "../../data/cart.js";
-import * as Product from '../../data/products.js'
+import * as Cart from "../data/cart.js";
+import * as Product from '../data/products.js'
 import * as Money from "../utils/money.js";
-import * as DeliveryOption from '../../data/deliveryOptions.js'
+import * as DeliveryOption from '../data/deliveryOptions.js'
 import { paymentSummary } from "./paymentSummary.js";
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
