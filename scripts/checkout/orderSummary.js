@@ -20,7 +20,7 @@ function isWeekEnd(item) {
     if (dayVal === 0) {
         dayVal = today.add(item + 1, 'days').day();
     }
-    console.log(today.day(dayVal).format('dddd, MMMM DD'));
+    // console.log(today.day(dayVal).format('dddd, MMMM DD'));
   }
   return date = today.day(dayVal).format('dddd, MMMM DD');
 }
@@ -39,9 +39,13 @@ export function renderOrderSummary() {
   		const deliveryDate = today.add(deliveryDays, 'days').format('dddd, MMMM DD');
   		checkoutHTML +=
   		`
-      <div class="cart-item-container js-cart-item-container-${id}">
+    <div class="
+      cart-item-container 
+      js-cart-item-container
+      js-cart-item-container-${id}">
+    
       <div class="delivery-date">
-        Delivery date: ${deliveryDate}
+          Delivery date: ${deliveryDate}
       </div>
 
       <div class="cart-item-details-grid">
@@ -54,7 +58,7 @@ export function renderOrderSummary() {
           <div class="product-price">
             $${Money.formatCurrency(priceCents)}
           </div>
-          <div class="product-quantity">
+          <div class="product-quantity js-product-quantity-${id}">
             <span>
               Quantity: <span class="quantity-label js-quantity-label" data-product-id="${id}">${quantity}</span>
             </span>
@@ -66,7 +70,7 @@ export function renderOrderSummary() {
             <input type="number" name="quantity" class="quantity-input">
             <span class="save-quantity-link link-primary">Save</span>
 
-            <span class="delete-quantity-link link-primary js-delete-link " data-product-id="${id}">
+            <span class="delete-quantity-link link-primary js-delete-link js-delete-link-${id} " data-product-id="${id}">
               Delete
             </span>
           </div>
@@ -79,7 +83,7 @@ export function renderOrderSummary() {
             ${setDelivery(deliveryOptionId, id)}
         </div>
       </div>
-      </div>
+    </div>
       `;
   	});
 
@@ -123,7 +127,12 @@ export function renderOrderSummary() {
   })
 
   // calculating the overall quantity
-  document.querySelector('.js-checkout-items').innerHTML = `${Cart.overallQuantity()} items`;
+  try{
+    document.querySelector('.js-checkout-items').innerHTML = `${Cart.overallQuantity()} items`;
+  } catch(error) {
+    console.log(error);
+  }
+  
 
   // updating the quantity
   document.querySelectorAll('.js-update-quantity').forEach((quantity) => {

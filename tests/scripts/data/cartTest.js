@@ -10,7 +10,7 @@ describe('testing suit: addToCart', () => {
           deliveryOptionId: '1'
         }]);
       });
-      console.log(localStorage.getItem("cart"));
+      // console.log(localStorage.getItem("cart"));
       loadFromStorage();
       addToCart('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
       expect(cart.length).toEqual(1);
@@ -31,7 +31,6 @@ describe('testing suit: addToCart', () => {
       addToCart('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
       expect(cart.length).toEqual(1);
       // this method used to record/modify the spyOn mocking times.
-      console.log(localStorage.getItem("cart"));
       expect(localStorage.setItem).toHaveBeenCalledTimes(1);
       expect(cart[0].productId).toEqual('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
       expect(cart[0].quantity).toEqual(1);
